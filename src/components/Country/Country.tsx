@@ -1,11 +1,17 @@
+import { useState } from "react"
 import type { CountryType } from "../../type"
 
 export interface CountryProps {
-    country: CountryType
+    country: CountryType,
+    handleVisitedCountries: (country: CountryType) => void
 }
 
-export default function Country({ country }: CountryProps) {
-    
+export default function Country({ country, handleVisitedCountries }: CountryProps) {
+    const [visited, setVisited] = useState<boolean>(false);
+    const handleVisited = () =>{
+        setVisited(!visited);
+        handleVisitedCountries(country)
+    }
     return (
         <>
             <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -47,8 +53,8 @@ export default function Country({ country }: CountryProps) {
 
                     
                     <div className="mt-5 pt-4 border-t border-gray-100 flex gap-2">
-                        <button className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-lg text-xs transition-colors">
-                            Visited
+                        <button onClick={handleVisited} className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-lg text-xs transition-colors">
+                            {visited ? 'Visited' : 'Mark as visited'} 
                         </button>
                         <button className="flex-1 cursor-pointer border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-3 rounded-lg text-xs transition-colors">
                             Add Flag
