@@ -1,5 +1,6 @@
 import { use } from "react";
 import type { CountryType } from "../../type";
+import Country from "../Country/Country";
 
 export interface CountriesProps {
     countries: Promise<CountryType[]>;
@@ -16,7 +17,7 @@ export default function Countries({ countries }: CountriesProps) {
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {
-                    countriesLists.map(country => <li>{country.name.common}</li>)
+                    countriesLists.map(country => <Country country={country}></Country>)
                     }
                     
                 </div>
