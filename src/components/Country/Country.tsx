@@ -4,14 +4,23 @@ import type { CountryType } from "../../type"
 export interface CountryProps {
     country: CountryType,
     handleVisitedCountries: (country: CountryType) => void
+    handleVisitedFlag: (flag: string) => void
 }
 
-export default function Country({ country, handleVisitedCountries }: CountryProps) {
+export default function Country({ country, handleVisitedCountries, handleVisitedFlag }: CountryProps) {
     const [visited, setVisited] = useState<boolean>(false);
-    const handleVisited = () =>{
+    const [isFlagAdded, setIsFlagAdded] = useState<boolean>(false); 
+
+    const handleVisited = () => {
         setVisited(!visited);
-        handleVisitedCountries(country)
+        handleVisitedCountries(country);
     }
+
+    const handleFlagClick = () => {
+        setIsFlagAdded(!isFlagAdded);
+        handleVisitedFlag(country.flags.flags.png);
+    }
+
     return (
         <>
             <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -51,13 +60,21 @@ export default function Country({ country, handleVisitedCountries }: CountryProp
                         </p>
                     </div>
 
-                    
                     <div className="mt-5 pt-4 border-t border-gray-100 flex gap-2">
                         <button onClick={handleVisited} className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-lg text-xs transition-colors">
                             {visited ? 'Visited' : 'Mark as visited'} 
                         </button>
-                        <button className="flex-1 cursor-pointer border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-3 rounded-lg text-xs transition-colors">
-                            Add Flag
+                        
+                        
+                        <button 
+                            onClick={handleFlagClick} 
+                            className={`flex-1 cursor-pointer font-medium py-2 px-3 rounded-lg text-xs transition-colors border ${
+                                isFlagAdded 
+                                    ? 'bg-amber-500 hover:bg-amber-600 border-amber-500 text-white' 
+                                    : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+                            }`}
+                        >
+                            {isFlagAdded ? 'Flag Added' : 'Add Flag'}
                         </button>
                     </div>
                 </div>

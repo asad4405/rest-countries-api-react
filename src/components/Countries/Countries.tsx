@@ -2,6 +2,7 @@ import { use, useState } from "react";
 import type { CountryType } from "../../type";
 import Country from "../Country/Country";
 import VisitedCountries from "./VisitedCountries";
+import VisitedFlags from "./VisitedFlags";
 
 export interface CountriesProps {
     countries: Promise<CountryType[]>;
@@ -22,6 +23,17 @@ export default function Countries({ countries }: CountriesProps) {
             setVisitedCountries(newVisitedCountries);
         }
     }
+
+    const [visitedFlags, setVisitedFlags] = useState<string[]>([]);
+    const handleVisitedFlag = (flag: string) =>{
+        if(visitedFlags.includes(flag)){
+            const remainingFlag = visitedFlags.filter(f => f !== flag);
+            setVisitedFlags(remainingFlag);
+        }else{
+            const visitFlag = [...visitedFlags, flag];
+            setVisitedFlags(visitFlag);
+        }
+    }
     return (
         <>
             <div className="container mx-auto p-4">
@@ -32,12 +44,15 @@ export default function Countries({ countries }: CountriesProps) {
 
                 {/* ======= visited countries ==== */}
                 <VisitedCountries countries={visitedCountries} />
+
+                {/* ======== visited flag ======== */}
+                <VisitedFlags flags={visitedFlags} />
                 
 
                 {/* ========== countries =========== */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {
-                        countriesLists.map(country => <Country key={country.ccn3.ccn3} country={country} handleVisitedCountries={handleVisitedCountries}></Country>)
+                        countriesLists.map(country => <Country key={country.ccn3.ccn3} country={country} handleVisitedCountries={handleVisitedCountries} handleVisitedFlag={handleVisitedFlag}></Country>)
                     }
                     
                 </div>
